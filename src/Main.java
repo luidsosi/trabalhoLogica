@@ -27,6 +27,7 @@ public class Main {
 		String dimacs = "";
 		int quantityHours = 3;
 		
+		dimacs += "p cnf " + (quantityHours * disciplines.size()) + " ";
 	}
 
 }
