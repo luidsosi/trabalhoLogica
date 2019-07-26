@@ -3,10 +3,10 @@
 1. Um congresso vai oferecer vários cursos de uma hora de duração cada. Participantes podem
 se inscrever em mais de um curso. Os organizadores do congresso desejam agendar os horários do
 cursos de acordo com as inscrições dos aluno. Ou seja, cursos que possuem inscrição de um mesmo
-aluno n~ao podem ser ofertados no mesmo horário.
+aluno não podem ser ofertados no mesmo horário.
 a) Os organizadores do congresso querem saber se e possível reservar apenas três horas para
 oferecer todos os cursos. Apresente um programa para criar um arquivo Dimacs que representa as
-restric~oes de horario dos cursos. Seu programa deve receber as informações de inscrições dos cursos
+restricões de horario dos cursos. Seu programa deve receber as informações de inscrições dos cursos
 a partir de um arquivo com a seguinte padronização (Fig. 1):
 Figure 1: Exemplo Arquivo
 em que as linhas que aparecem antes do # representam os cursos e os pares de numeros depois
