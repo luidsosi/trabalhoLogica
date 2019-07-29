@@ -26,7 +26,3 @@ Atômicas:
 Fórmulas:
 1. cij -> !(ci1 ^ ... ^ ci(j-1) ^ ci(j+1) ^ ... ^ cin), onde n = numero de cores;
 2. (cik ^ cjk) -> !aij, onde i != j;
-
-Fórmulas em CNF:
-1. (!cij) v !(ci1 ^ ... ^ ci(j-1) ^ ci(j+1) ^ ... ^ cin);
-2. !(cik ^ cjk) v (!aij);
