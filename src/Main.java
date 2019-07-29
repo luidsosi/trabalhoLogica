@@ -4,7 +4,7 @@ public class Main {
 	public static void main(String[] args) {
 		ArrayList<String> rows = File.read("C:\\www\\TrabalhoLogica\\src\\teste.txt");
 		
-		ArrayList<Discipline> disciplines = new ArrayList<Discipline>();
+		ArrayList<Discipline> cursos = new ArrayList<Discipline>();
 		
 		
 		int i;
@@ -13,21 +13,54 @@ public class Main {
 				i++;
 				break;
 			}
-			disciplines.add(new Discipline(Integer.parseInt(rows.get(i).split(" ")[0]), rows.get(i).split(" ")[1]));
+			cursos.add(new Discipline(Integer.parseInt(rows.get(i).split(" ")[0]), rows.get(i).split(" ")[1]));
 		}
 		
+		int contador = 0;
 		for (; i < rows.size(); i++) {
-			System.out.println(rows.get(i));
-			disciplines.get(Integer.parseInt(rows.get(i).split(" ")[0]) - 1).
+			contador++;
+			cursos.get(Integer.parseInt(rows.get(i).split(" ")[0]) - 1).
 				addDisciplinesStudentsCommon(Integer.parseInt(rows.get(i).split(" ")[1]));
 		}
-
-		disciplines.forEach(discipline -> System.out.println("Id:" + discipline.getId() + ", Nome:" + discipline.getName() + ", Comum: " + discipline.printDisciplinesStudentsCommon()));
 		
-		String dimacs = "";
-		int quantityHours = 3;
+		String dimacs = "c arquivo referente a modelagem de horario dos cursos\n";
 		
-		dimacs += "p cnf " + (quantityHours * disciplines.size()) + " ";
+		int quantidadeHoras = 5;
+		int quantidadeAtomicasHoraCurso =  quantidadeHoras * cursos.size();
+		int quantidadeAtomicasAlunosComum = (cursos.size() * (cursos.size() -1)); 
+		int quantidadeAtomicas = quantidadeAtomicasHoraCurso + quantidadeAtomicasAlunosComum;
+		int quantidadeClausulas = (quantidadeHoras * (quantidadeHoras - 1) * cursos.size()) + (quantidadeAtomicasAlunosComum * quantidadeHoras) + contador;
+		
+		dimacs += "p cnf " + quantidadeAtomicas + " " + quantidadeClausulas + " \n";
+		
+		for (int j = 0; j < cursos.size(); j++) {
+			for (int j2 = 1; j2 <= quantidadeHoras; j2++) {
+				for (int k = 1; k <= quantidadeHoras; k++) {
+					if (k != j2) {
+						dimacs += "-" + (j*quantidadeHoras + j2) + " -" + (j*quantidadeHoras + k) + " \n";
+					}
+				}
+			}
+		}
+		
+		for (int j = 0; j < cursos.size(); j++) {
+			for (int j2 = 0; j2 < cursos.size(); j2++) {
+				for (int k = 1; k <= quantidadeHoras; k++) {
+					if (j != j2) {
+						dimacs += "-" + (j*quantidadeHoras + k) + " -" + (j2*quantidadeHoras + k) + " "
+								+ "-" + (quantidadeAtomicasHoraCurso + (j*cursos.size() + j2)) + " \n";
+					}
+				}
+			}
+		}
+		
+		for (int j = 0; j < cursos.size(); j++) {
+			for (int j2 = 0; j2 < cursos.get(j).getDisciplinesStudentsCommon().size(); j2++) {
+				dimacs += (quantidadeAtomicasHoraCurso + ((cursos.get(j).getId()-1) * cursos.size()) +  (cursos.get(j).getDisciplinesStudentsCommon().get(j2) - 1)) + "\n";
+			}
+		}
+		
+		File.write("C:\\www\\TrabalhoLogica\\src\\dimacs.txt", dimacs);
 	}
 
 }
